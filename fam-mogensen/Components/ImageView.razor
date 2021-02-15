@@ -1,0 +1,13 @@
+﻿<div class="card">
+    <div class="card-body">
+        <img src="@ImageSrc" style="height: @ImageHeight; width: auto;"/>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public string ImageHeight { get; set; } = "480px";
+
+    [Parameter]
+    public string ImageSrc { get; set; } = "images/Vegetables1.jpg";
+}

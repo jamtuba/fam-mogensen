@@ -1,0 +1,17 @@
+﻿@page "/images/"
+@inject Microsoft.AspNetCore.Components.WebAssembly.Hosting.IWebAssemblyHostEnvironment _hostEnvironment
+
+<h3>Billed eksempel</h3>
+
+<div class="container d-flex">
+    <ImageView ImageSrc="images/Vegetables1.jpg" ImageHeight="200px"/>
+    <ImageView ImageSrc="images/Vegetables2.jpg" ImageHeight="250px"/>
+    <ImageView ImageSrc="images/Vegetables3.jpg" ImageHeight="300px"/>
+</div>
+<br/>
+
+<button @onclick="@(() => Modal.Show<ImageView>("Image preview"))" class="btn btn-primary">Stort billede</button>
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+}

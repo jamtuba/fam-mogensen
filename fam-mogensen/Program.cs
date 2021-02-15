@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Blazored.Modal;
 
 namespace fam_mogensen
 {
@@ -26,6 +27,7 @@ namespace fam_mogensen
                 builder.Configuration.Bind("Local", options.ProviderOptions);
             });
 
+            builder.Services.AddBlazoredModal();
 
             await builder.Build().RunAsync();
         }
