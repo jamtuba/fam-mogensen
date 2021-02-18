@@ -23,6 +23,11 @@ namespace Api
         {
             var imageUrls = await _getBlob.BlobGetterAsync("images");
 
+            if(imageUrls == null || imageUrls.Count < 1)
+            {
+                imageUrls.Add("https://img.drivemag.net/media/default/0001/98/urus-pickup-truck-1-4731-default-large.jpeg");
+            }
+
             return new OkObjectResult(imageUrls);
         }
     }
