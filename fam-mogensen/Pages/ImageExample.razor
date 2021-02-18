@@ -1,0 +1,37 @@
+﻿@page "/images/"
+
+@inject HttpClient _http
+
+<h3>Billed eksempel</h3>
+
+<div class="container d-flex">
+    @if (imageUrls != null && imageUrls.Count > 0)
+    {
+        @foreach (var url in imageUrls)
+        {
+            <ImageView ImageSrc="@url" ImageHeight="200px" />
+        }
+    }
+    else
+    {
+        <div class="d-flex align-items-center" style="width: 3rem; height: 3rem;" role="status">
+            <div class="spinner-border ml-auto text-primary" role="status" aria-hidden="true"></div>
+        </div>
+        <div class="m-5 text-primary">
+            <h1><strong>Loading...</strong></h1>
+        </div>
+    }
+
+</div>
+<br />
+
+
+
+@code {
+    private List<string> imageUrls = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        imageUrls = await _http.GetFromJsonAsync<List<string>>("/api/GetImages");
+    }
+}
