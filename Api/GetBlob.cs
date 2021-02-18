@@ -11,7 +11,7 @@ namespace Api
     {
         public async Task<List<string>> BlobGetterAsync(string containerName)
         {
-            string connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+            string connectionString = Environment.GetEnvironmentVariable("BlobEndPoint");
 
             BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
 
