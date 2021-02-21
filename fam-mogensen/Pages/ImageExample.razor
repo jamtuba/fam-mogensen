@@ -32,6 +32,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        imageUrls = await _http.GetFromJsonAsync<List<string>>("/api/GetImages");
+        imageUrls = await _http.GetFromJsonAsync<List<string>>(Endpoints.ImagesEndpoint);
     }
 }
