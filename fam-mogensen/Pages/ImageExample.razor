@@ -2,36 +2,39 @@
 
 @inject HttpClient _http
 
-<h3>Billed eksempel</h3>
+<h3>Billedeksempel</h3>
 
 <div class="container d-flex">
-    @if (imageUrls != null && imageUrls.Count > 0)
-    {
-        @foreach (var url in imageUrls)
+    <div class="row row-cols-1 row-cols-md-3">
+        @if (imageBase64List != null && imageBase64List.Count > 0)
         {
-            <ImageView ImageSrc="@url" ImageHeight="200px" />
+            @foreach (var url in imageBase64List)
+            {
+                <div class="col m-1">
+                    <ImageView ImageSrc="@string.Format("data:image/png;base64,{0}", url)" ImageHeight="180px" />
+                </div>
+            }
         }
-    }
-    else
-    {
-        <div class="d-flex align-items-center" style="width: 3rem; height: 3rem;" role="status">
-            <div class="spinner-border ml-auto text-primary" role="status" aria-hidden="true"></div>
-        </div>
-        <div class="m-5 text-primary">
-            <h1><strong>Loading...</strong></h1>
-        </div>
-    }
-
+        else
+        {
+            <div class="d-flex align-items-center" style="width: 3rem; height: 3rem;" role="status">
+                <div class="spinner-border ml-auto text-primary" role="status" aria-hidden="true"></div>
+            </div>
+            <div class="m-5 text-primary">
+                <h1><strong>Loading...</strong></h1>
+            </div>
+        }
+    </div>
 </div>
 <br />
 
 
 
 @code {
-    private List<string> imageUrls = new List<string>();
+    private List<string> imageBase64List = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
-        imageUrls = await _http.GetFromJsonAsync<List<string>>(Endpoints.ImagesEndpoint);
+        imageBase64List = await _http.GetFromJsonAsync<List<string>>(Endpoints.ImagesEndpoint);
     }
 }

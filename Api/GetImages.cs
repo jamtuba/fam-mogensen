@@ -4,6 +4,10 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.IO;
 
 namespace Api
 {
@@ -21,14 +25,34 @@ namespace Api
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var imageUrls = await _getBlob.BlobGetterAsync("images");
+            var blobClients = await _getBlob.BlobGetterAsync("images");
 
-            if(imageUrls == null || imageUrls.Count < 1)
+            var imgBase64List = new List<string>();
+
+            if (blobClients == null || blobClients.Count < 1)
             {
-                imageUrls.Add("https://img.drivemag.net/media/default/0001/98/urus-pickup-truck-1-4731-default-large.jpeg");
+                imgBase64List.Add("https://img.drivemag.net/media/default/0001/98/urus-pickup-truck-1-4731-default-large.jpeg");
+            }
+            else
+            {
+                foreach (var blobClient in blobClients)
+                {
+                    byte[] bytes = new byte[] { };
+                    using (var ms = new MemoryStream())
+                    {
+                        if (blobClient.Exists())
+                        {
+                            await blobClient.DownloadToAsync(ms);
+                            bytes = ms.ToArray();
+                        }
+                    }
+                    var img64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+
+                    imgBase64List.Add(img64String);
+                }
             }
 
-            return new OkObjectResult(imageUrls);
+            return new OkObjectResult(imgBase64List);
         }
     }
 }

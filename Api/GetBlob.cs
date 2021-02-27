@@ -9,7 +9,7 @@ namespace Api
 {
     public class GetBlob : IGetBlob
     {
-        public async Task<List<string>> BlobGetterAsync(string containerName)
+        public async Task<List<BlobClient>> BlobGetterAsync(string containerName)
         {
             string connectionString = Environment.GetEnvironmentVariable("BlobEndPoint");
 
@@ -19,15 +19,15 @@ namespace Api
 
             AsyncPageable<BlobItem> blobs = containerClient.GetBlobsAsync();
 
-            var blobUrls = new List<string>();
+            var blobClients = new List<BlobClient>();
 
             await foreach (var blob in blobs)
             {
                 var blobClient = containerClient.GetBlobClient(blob.Name);
-                blobUrls.Add(blobClient.Uri.AbsoluteUri);
+                blobClients.Add(blobClient);
             }
 
-            return blobUrls;
+            return blobClients;
         }
     }
 }
