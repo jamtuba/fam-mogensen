@@ -1,7 +1,7 @@
 ﻿<div class="container">
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-8 col-12" style="color:blue; text-align:right;"><h4>Opdateret @EditDate</h4></div>
+        <div class="col-md-8 col-12" style="color:blue; text-align:right;"><h4>@((@ShowUpdated) ? $"Opdateret {EditDate}" : "") </h4></div>
     </div>
     <div class="row">
         <div class="col-12">
@@ -17,4 +17,7 @@
 
     [Parameter]
     public string EditDate { get; set; }
+
+    [Parameter]
+    public bool ShowUpdated { get; set; } = true;
 }
